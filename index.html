@@ -34,10 +34,34 @@
         }
         .visit-card, .sales-plan-card {
             transition: transform 0.2s ease, box-shadow 0.2s ease;
+            cursor: pointer;
+            border-radius: 12px;
         }
         .visit-card:hover, .sales-plan-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+        }
+        .dashboard-card {
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .dashboard-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+        }
+        .card-header {
+            background: linear-gradient(90deg, #f8fafc 0%, #f1f5f9 100%);
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .status-badge {
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        .action-button {
+            transition: color 0.2s ease;
         }
     </style>
 </head>
@@ -67,6 +91,7 @@
                     </div>
                 </div>
             </aside>
+
             <main class="flex-1 overflow-y-auto p-4 md:p-8">
                 <div id="dashboard-page" class="page">
                     <div class="flex flex-col md:flex-row md:items-center justify-between mb-6">
@@ -79,20 +104,22 @@
                             <span>Tambah Pelanggan</span>
                         </button>
                     </div>
+
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
                         <div class="bg-white p-6 rounded-lg shadow-sm flex items-center space-x-4">
                             <div class="bg-sky-100 p-3 rounded-full"><svg class="h-6 w-6 text-sky-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m-7.5-2.962A3.375 3.375 0 019 12.25c0-1.03.394-1.983 1.057-2.746A3.375 3.375 0 0112.25 9c1.03 0 1.983.394 2.746 1.057a3.375 3.375 0 011.057 2.746c0 1.03-.394 1.983-1.057 2.746A3.375 3.375 0 0112.25 15.5c-1.03 0-1.983-.394-2.746-1.057m-7.5-2.962a3.375 3.375 0 010-5.492M3 12a9 9 0 1118 0 9 9 0 01-18 0z" /></svg></div>
                             <div><p class="text-slate-500 text-sm">Total Pelanggan</p><p class="text-2xl font-bold">42</p></div>
                         </div>
-                        <div class="bg-white p-6 rounded-lg shadow-sm flex items-center space-x-4">
+                        <div class="dashboard-card bg-white p-6 rounded-lg shadow-sm flex items-center space-x-4" onclick="showPage('upcoming-visits-page')">
                             <div class="bg-amber-100 p-3 rounded-full"><svg class="h-6 w-6 text-amber-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" /></svg></div>
                             <div><p class="text-slate-500 text-sm">Rencana Visit Minggu Ini</p><p class="text-2xl font-bold">3</p></div>
                         </div>
-                        <div class="bg-white p-6 rounded-lg shadow-sm flex items-center space-x-4">
+                        <div class="dashboard-card bg-white p-6 rounded-lg shadow-sm flex items-center space-x-4" onclick="showPage('active-sales-plans-page')">
                             <div class="bg-emerald-100 p-3 rounded-full"><svg class="h-6 w-6 text-emerald-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg></div>
                             <div><p class="text-slate-500 text-sm">Sales Plan Aktif</p><p class="text-2xl font-bold">8</p></div>
                         </div>
                     </div>
+
                     <div class="bg-white rounded-lg shadow-sm overflow-hidden">
                         <div class="p-6">
                             <div class="flex flex-col md:flex-row md:items-center justify-between mb-4">
@@ -126,17 +153,17 @@
                                     <tr><th class="p-4 font-semibold text-sm">Nama Pelanggan</th><th class="p-4 font-semibold text-sm hidden md:table-cell">Industri</th><th class="p-4 font-semibold text-sm">Status</th></tr>
                                 </thead>
                                 <tbody>
-                                    <tr class="customer-row border-b border-slate-200 hover:bg-slate-50 cursor-pointer" onclick="showPage('customer-profile-page')" data-name="PT. Maju Mundur" data-industry="Manufaktur" data-status="Aktif">
+                                    <tr class="customer-row border-b border-slate-200 hover:bg-slate-50 cursor-pointer" onclick="showCustomerProfile('PT. Maju Mundur', 'Manufaktur')" data-name="PT. Maju Mundur" data-industry="Manufaktur" data-status="Aktif">
                                         <td class="p-4"><p class="font-semibold">PT. Maju Mundur</p><p class="text-sm text-slate-500 md:hidden">Manufaktur</p></td>
                                         <td class="p-4 hidden md:table-cell">Manufaktur</td>
                                         <td class="p-4"><span class="px-2 py-1 text-xs font-semibold rounded-full bg-emerald-100 text-emerald-800">Aktif</span></td>
                                     </tr>
-                                    <tr class="customer-row border-b border-slate-200 hover:bg-slate-50 cursor-pointer" onclick="showPage('customer-profile-page')" data-name="CV. Jaya Abadi" data-industry="Retail" data-status="Prospek">
+                                    <tr class="customer-row border-b border-slate-200 hover:bg-slate-50 cursor-pointer" onclick="showCustomerProfile('CV. Jaya Abadi', 'Retail')" data-name="CV. Jaya Abadi" data-industry="Retail" data-status="Prospek">
                                         <td class="p-4"><p class="font-semibold">CV. Jaya Abadi</p><p class="text-sm text-slate-500 md:hidden">Retail</p></td>
                                         <td class="p-4 hidden md:table-cell">Retail</td>
                                         <td class="p-4"><span class="px-2 py-1 text-xs font-semibold rounded-full bg-amber-100 text-amber-800">Prospek</span></td>
                                     </tr>
-                                    <tr class="customer-row border-b border-slate-200 hover:bg-slate-50 cursor-pointer" onclick="showPage('customer-profile-page')" data-name="Koperasi Sejahtera" data-industry="Keuangan" data-status="Aktif">
+                                    <tr class="customer-row border-b border-slate-200 hover:bg-slate-50 cursor-pointer" onclick="showCustomerProfile('Koperasi Sejahtera', 'Keuangan')" data-name="Koperasi Sejahtera" data-industry="Keuangan" data-status="Aktif">
                                         <td class="p-4"><p class="font-semibold">Koperasi Sejahtera</p><p class="text-sm text-slate-500 md:hidden">Keuangan</p></td>
                                         <td class="p-4 hidden md:table-cell">Keuangan</td>
                                         <td class="p-4"><span class="px-2 py-1 text-xs font-semibold rounded-full bg-emerald-100 text-emerald-800">Aktif</span></td>
@@ -146,6 +173,219 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Simplified Visit Planning Page -->
+                <div id="upcoming-visits-page" class="page hidden">
+                    <div class="mb-6">
+                        <button onclick="showPage('dashboard-page')" class="flex items-center space-x-2 text-slate-500 hover:text-slate-800 font-semibold mb-4">
+                            <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" /></svg>
+                            <span>Kembali ke Dashboard</span>
+                        </button>
+                        <h1 class="text-3xl font-bold">Rencana Visit Minggu Ini</h1>
+                    </div>
+
+                    <div class="bg-white rounded-lg shadow-sm p-6">
+                        <div class="flex flex-col md:flex-row md:items-center justify-between mb-6">
+                            <h3 class="text-lg font-semibold">Daftar Rencana Visit</h3>
+                            <div class="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-4 mt-4 md:mt-0">
+                                <input type="text" id="visit-customer-search" placeholder="Cari nama pelanggan..." class="border border-slate-300 rounded-md px-3 py-2 focus:ring-sky-500 focus:border-sky-500 text-sm" oninput="filterVisits()">
+                                <select id="visit-sort-order" onchange="filterVisits()" class="border border-slate-300 rounded-md px-3 py-2 focus:ring-sky-500 focus:border-sky-500 text-sm">
+                                    <option value="newest">Terbaru</option>
+                                    <option value="oldest">Terlama</option>
+                                </select>
+                                <button onclick="showModal('add-visit-modal')" class="flex items-center justify-center space-x-2 bg-sky-600 text-white font-semibold px-4 py-2 rounded-lg hover:bg-sky-700 transition duration-200">
+                                    <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
+                                    <span>Rencanakan Visit Baru</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div id="visit-list" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="visit-card bg-white p-4 rounded-lg shadow-sm border border-slate-200" onclick="showCustomerProfile('PT. Maju Mundur', 'Manufaktur')" data-customer="PT. Maju Mundur" data-date="2025-07-15">
+                                <div class="card-header p-3 rounded-t-lg">
+                                    <div class="flex justify-between items-center">
+                                        <p class="font-semibold text-lg text-slate-800">Presentasi Solusi Cloud Backup</p>
+                                        <span class="status-badge bg-amber-100 text-amber-800">Terjadwal</span>
+                                    </div>
+                                </div>
+                                <div class="p-4">
+                                    <div class="flex items-center space-x-2 mb-2">
+                                        <svg class="h-5 w-5 text-slate-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" /></svg>
+                                        <p class="font-medium text-sm text-slate-700">Pelanggan: PT. Maju Mundur</p>
+                                    </div>
+                                    <div class="flex items-center space-x-2 mb-2">
+                                        <svg class="h-5 w-5 text-slate-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" /></svg>
+                                        <p class="text-sm text-slate-500 font-medium">Jadwal: 15 Juli 2025, 10:00 WIB</p>
+                                    </div>
+                                    <div class="flex items-center space-x-2">
+                                        <svg class="h-5 w-5 text-slate-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" /></svg>
+                                        <p class="text-sm text-slate-500">Lokasi: Online Meeting</p>
+                                    </div>
+                                    <div class="mt-4 flex justify-between items-center" onclick="event.stopPropagation()">
+                                        <button onclick="markVisitCompleted(this)" class="px-3 py-1 text-xs font-semibold bg-emerald-100 text-emerald-800 rounded-full hover:bg-emerald-200 transition">Selesai Visit</button>
+                                        <div class="flex space-x-3">
+                                            <button class="action-button text-sm font-semibold text-sky-600 hover:text-sky-800">Edit</button>
+                                            <button class="action-button text-sm font-semibold text-red-600 hover:text-red-800">Hapus</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="visit-card bg-white p-4 rounded-lg shadow-sm border border-slate-200" onclick="showCustomerProfile('CV. Jaya Abadi', 'Retail')" data-customer="CV. Jaya Abadi" data-date="2025-07-16">
+                                <div class="card-header p-3 rounded-t-lg">
+                                    <div class="flex justify-between items-center">
+                                        <p class="font-semibold text-lg text-slate-800">Diskusi Kebutuhan IT</p>
+                                        <span class="status-badge bg-amber-100 text-amber-800">Terjadwal</span>
+                                    </div>
+                                </div>
+                                <div class="p-4">
+                                    <div class="flex items-center space-x-2 mb-2">
+                                        <svg class="h-5 w-5 text-slate-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" /></svg>
+                                        <p class="font-medium text-sm text-slate-700">Pelanggan: CV. Jaya Abadi</p>
+                                    </div>
+                                    <div class="flex items-center space-x-2 mb-2">
+                                        <svg class="h-5 w-5 text-slate-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" /></svg>
+                                        <p class="text-sm text-slate-500 font-medium">Jadwal: 16 Juli 2025, 14:00 WIB</p>
+                                    </div>
+                                    <div class="flex items-center space-x-2">
+                                        <svg class="h-5 w-5 text-slate-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" /></svg>
+                                        <p class="text-sm text-slate-500">Lokasi: Kantor Pelanggan</p>
+                                    </div>
+                                    <div class="mt-4 flex justify-between items-center" onclick="event.stopPropagation()">
+                                        <button onclick="markVisitCompleted(this)" class="px-3 py-1 text-xs font-semibold bg-emerald-100 text-emerald-800 rounded-full hover:bg-emerald-200 transition">Selesai Visit</button>
+                                        <div class="flex space-x-3">
+                                            <button class="action-button text-sm font-semibold text-sky-600 hover:text-sky-800">Edit</button>
+                                            <button class="action-button text-sm font-semibold text-red-600 hover:text-red-800">Hapus</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="visit-card bg-white p-4 rounded-lg shadow-sm border border-slate-200" onclick="showCustomerProfile('Koperasi Sejahtera', 'Keuangan')" data-customer="Koperasi Sejahtera" data-date="2025-07-18">
+                                <div class="card-header p-3 rounded-t-lg">
+                                    <div class="flex justify-between items-center">
+                                        <p class="font-semibold text-lg text-slate-800">Follow Up Kontrak Astinet</p>
+                                        <span class="status-badge bg-amber-100 text-amber-800">Terjadwal</span>
+                                    </div>
+                                </div>
+                                <div class="p-4">
+                                    <div class="flex items-center space-x-2 mb-2">
+                                        <svg class="h-5 w-5 text-slate-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" /></svg>
+                                        <p class="font-medium text-sm text-slate-700">Pelanggan: Koperasi Sejahtera</p>
+                                    </div>
+                                    <div class="flex items-center space-x-2 mb-2">
+                                        <svg class="h-5 w-5 text-slate-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" /></svg>
+                                        <p class="text-sm text-slate-500 font-medium">Jadwal: 18 Juli 2025, 09:00 WIB</p>
+                                    </div>
+                                    <div class="flex items-center space-x-2">
+                                        <svg class="h-5 w-5 text-slate-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" /></svg>
+                                        <p class="text-sm text-slate-500">Lokasi: Kantor Pelanggan</p>
+                                    </div>
+                                    <div class="mt-4 flex justify-between items-center" onclick="event.stopPropagation()">
+                                        <button onclick="markVisitCompleted(this)" class="px-3 py-1 text-xs font-semibold bg-emerald-100 text-emerald-800 rounded-full hover:bg-emerald-200 transition">Selesai Visit</button>
+                                        <div class="flex space-x-3">
+                                            <button class="action-button text-sm font-semibold text-sky-600 hover:text-sky-800">Edit</button>
+                                            <button class="action-button text-sm font-semibold text-red-600 hover:text-red-800">Hapus</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Active Sales Plans Page -->
+                <div id="active-sales-plans-page" class="page hidden">
+                    <div class="mb-6">
+                        <button onclick="showPage('dashboard-page')" class="flex items-center space-x-2 text-slate-500 hover:text-slate-800 font-semibold mb-4">
+                            <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" /></svg>
+                            <span>Kembali ke Dashboard</span>
+                        </button>
+                        <h1 class="text-3xl font-bold">Sales Plan Aktif</h1>
+                    </div>
+
+                    <div class="bg-white rounded-lg shadow-sm p-6">
+                        <div class="flex flex-col md:flex-row md:items-center justify-between mb-6">
+                            <h3 class="text-lg font-semibold">Daftar Sales Plan Aktif</h3>
+                            <div class="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-4 mt-4 md:mt-0">
+                                <input type="text" id="sales-customer-search" placeholder="Cari nama pelanggan..." class="border border-slate-300 rounded-md px-3 py-2 focus:ring-sky-500 focus:border-sky-500 text-sm" oninput="filterAndSortSalesPlans()">
+                                <select id="status-filter-sales" onchange="filterAndSortSalesPlans()" class="border border-slate-300 rounded-md px-3 py-2 focus:ring-sky-500 focus:border-sky-500 text-sm">
+                                    <option value="all">Semua Status</option>
+                                    <option value="In Progress">In Progress</option>
+                                    <option value="Closed-Won">Closed-Won</option>
+                                    <option value="Closed-Lost">Closed-Lost</option>
+                                </select>
+                                <select id="sales-sort-order" onchange="filterAndSortSalesPlans()" class="border border-slate-300 rounded-md px-3 py-2 focus:ring-sky-500 focus:border-sky-500 text-sm">
+                                    <option value="newest">Terbaru</option>
+                                    <option value="oldest">Terlama</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div id="sales-plan-list" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="sales-plan-card bg-white p-4 rounded-lg shadow-sm border border-slate-200" onclick="showCustomerProfile('PT. Maju Mundur', 'Manufaktur')" data-customer="PT. Maju Mundur" data-status="In Progress" data-date="2025-06-01">
+                                <div class="card-header p-3 rounded-t-lg">
+                                    <div class="flex justify-between items-center">
+                                        <p class="font-semibold text-lg text-slate-800">Penawaran Solusi Cloud Backup</p>
+                                        <span class="status-badge bg-blue-100 text-blue-800">In Progress</span>
+                                    </div>
+                                </div>
+                                <div class="p-4">
+                                    <div class="flex items-center space-x-2 mb-2">
+                                        <svg class="h-5 w-5 text-slate-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" /></svg>
+                                        <p class="font-medium text-sm text-slate-700">Pelanggan: PT. Maju Mundur</p>
+                                    </div>
+                                    <div class="flex items-center space-x-2">
+                                        <svg class="h-5 w-5 text-slate-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12m0 0c-1.636 0-3-1.364-3-3s1.364-3 3-3m0 0c1.636 0 3 1.364 3 3s-1.364 3-3 3m0-12c1.636 0 3 1.364 3 3s-1.364 3-3 3" /></svg>
+                                        <p class="text-sm text-slate-500">Target: Closing kontrak Rp 50.000.000</p>
+                                    </div>
+                                    <div class="flex items-center space-x-2">
+                                        <svg class="h-5 w-5 text-slate-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" /></svg>
+                                        <p class="text-sm text-slate-500">Tanggal: 1 Juni 2025</p>
+                                    </div>
+                                    <div class="mt-4 flex justify-between items-center" onclick="event.stopPropagation()">
+                                        <div class="flex space-x-2">
+                                            <button onclick="changeSalesStatus(this, 'Closed-Won')" class="px-3 py-1 text-xs font-semibold bg-emerald-100 text-emerald-800 rounded-full hover:bg-emerald-200 transition">Won</button>
+                                            <button onclick="changeSalesStatus(this, 'Closed-Lost')" class="px-3 py-1 text-xs font-semibold bg-red-100 text-red-800 rounded-full hover:bg-red-200 transition">Lost</button>
+                                        </div>
+                                        <div class="flex space-x-3">
+                                            <button class="action-button text-sm font-semibold text-sky-600 hover:text-sky-800">Edit</button>
+                                            <button class="action-button text-sm font-semibold text-red-600 hover:text-red-800">Hapus</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="sales-plan-card bg-white p-4 rounded-lg shadow-sm border border-slate-200" onclick="showCustomerProfile('Koperasi Sejahtera', 'Keuangan')" data-customer="Koperasi Sejahtera" data-status="Closed-Won" data-date="2025-05-15">
+                                <div class="card-header p-3 rounded-t-lg">
+                                    <div class="flex justify-between items-center">
+                                        <p class="font-semibold text-lg text-slate-800">Upgrade Bandwidth Astinet</p>
+                                        <span class="status-badge bg-emerald-100 text-emerald-800">Closed-Won</span>
+                                    </div>
+                                </div>
+                                <div class="p-4">
+                                    <div class="flex items-center space-x-2 mb-2">
+                                        <svg class="h-5 w-5 text-slate-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" /></svg>
+                                        <p class="font-medium text-sm text-slate-700">Pelanggan: Koperasi Sejahtera</p>
+                                    </div>
+                                    <div class="flex items-center space-x-2">
+                                        <svg class="h-5 w-5 text-slate-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12m0 0c-1.636 0-3-1.364-3-3s1.364-3 3-3m0 0c1.636 0 3 1.364 3 3s-1.364 3-3 3m0-12c1.636 0 3 1.364 3 3s-1.364 3-3 3" /></svg>
+                                        <p class="text-sm text-slate-500">Target: Closing kontrak Rp 120.000.000 / tahun</p>
+                                    </div>
+                                    <div class="flex items-center space-x-2">
+                                        <svg class="h-5 w-5 text-slate-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" /></svg>
+                                        <p class="text-sm text-slate-500">Tanggal: 15 Mei 2025</p>
+                                    </div>
+                                    <div class="mt-4 flex justify-end space-x-3" onclick="event.stopPropagation()">
+                                        <button class="action-button text-sm font-semibold text-sky-600 hover:text-sky-800">Edit</button>
+                                        <button class="action-button text-sm font-semibold text-red-600 hover:text-red-800">Hapus</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <div id="customer-profile-page" class="page hidden">
                     <div class="mb-6">
                         <button onclick="showPage('dashboard-page')" class="flex items-center space-x-2 text-slate-500 hover:text-slate-800 font-semibold mb-4">
@@ -153,13 +393,14 @@
                             <span>Kembali ke Dashboard</span>
                         </button>
                         <div class="flex flex-col md:flex-row md:items-center justify-between">
-                            <div><h1 class="text-3xl font-bold">PT. Maju Mundur</h1><p class="text-slate-500 mt-1">Industri Manufaktur</p></div>
+                            <div><h1 id="customer-name" class="text-3xl font-bold">PT. Maju Mundur</h1><p id="customer-industry" class="text-slate-500 mt-1">Industri Manufaktur</p></div>
                             <button onclick="showModal('add-sales-plan-modal')" class="flex items-center justify-center space-x-2 bg-sky-600 text-white font-semibold px-4 py-2 rounded-lg hover:bg-sky-700 transition duration-200 mt-4 md:mt-0">
                                 <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
                                 <span>Buat Sales Plan</span>
                             </button>
                         </div>
                     </div>
+
                     <div class="border-b border-slate-200 mb-6">
                         <nav id="customer-tabs" class="-mb-px flex space-x-6 overflow-x-auto">
                             <a href="#" data-tab="profil" class="tab-link whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-sky-500 text-sky-600">Profil & Analisis</a>
@@ -169,6 +410,7 @@
                             <a href="#" data-tab="komunikasi" class="tab-link whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300">Komunikasi</a>
                         </nav>
                     </div>
+
                     <div id="tab-content">
                         <div id="profil-content" class="tab-pane">
                             <div class="space-y-6">
@@ -182,9 +424,10 @@
                                             <div><dt class="font-medium">Nama PIC</dt><dd class="text-slate-500">Bapak Joko</dd></div>
                                             <div><dt class="font-medium">Jabatan</dt><dd class="text-slate-500">Manajer IT</dd></div>
                                             <div><dt class="font-medium">Email</dt><dd class="text-slate-500">joko@majumundur.co.id</dd></div>
-                                            <div><dt class="font-medium">Telepon</dt><dd class="text-slate-500"> altres081234567890</dd></div>
+                                            <div><dt class="font-medium">Telepon</dt><dd class="text-slate-500">081234567890</dd></div>
                                         </dl>
                                     </div>
+
                                     <div class="bg-white p-6 rounded-lg shadow-sm">
                                         <div class="flex justify-between items-center mb-4">
                                             <h3 class="text-lg font-semibold">Informasi Bisnis</h3>
@@ -196,6 +439,7 @@
                                         </dl>
                                     </div>
                                 </div>
+
                                 <div class="bg-white p-6 rounded-lg shadow-sm">
                                     <div class="flex justify-between items-center mb-4">
                                         <h3 class="text-lg font-semibold">Analisis Pain Points</h3>
@@ -215,6 +459,7 @@
                                         </div>
                                     </div>
                                 </div>
+
                                 <div class="bg-white p-6 rounded-lg shadow-sm">
                                     <div class="flex justify-between items-center mb-4">
                                         <h3 class="text-lg font-semibold">Analisis Gap & Peluang</h3>
@@ -225,68 +470,136 @@
                                 </div>
                             </div>
                         </div>
+
                         <div id="sales-plan-content" class="tab-pane hidden">
+    <div class="bg-white rounded-lg shadow-sm p-6">
+        <div class="flex flex-col md:flex-row md:items-center justify-between mb-6">
+            <h3 class="text-lg font-semibold">Daftar Sales Plan</h3>
+            <div class="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-4 mt-4 md:mt-0">
+                <select id="status-filter-sales-tab" onchange="filterAndSortSalesPlansTab()" class="border border-slate-300 rounded-md px-3 py-2 focus:ring-sky-500 focus:border-sky-500 text-sm">
+                    <option value="all">Semua Status</option>
+                    <option value="In Progress">In Progress</option>
+                    <option value="Closed-Won">Closed-Won</option>
+                    <option value="Closed-Lost">Closed-Lost</option>
+                </select>
+                <select id="sort-order-tab" onchange="filterAndSortSalesPlansTab()" class="border border-slate-300 rounded-md px-3 py-2 focus:ring-sky-500 focus:border-sky-500 text-sm">
+                    <option value="newest">Terbaru</option>
+                    <option value="oldest">Terlama</option>
+                </select>
+            </div>
+        </div>
+
+        <div id="sales-plan-list-tab" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="sales-plan-card bg-white p-4 rounded-lg shadow-sm border border-slate-200" data-customer="PT. Maju Mundur" data-status="In Progress" data-date="2025-06-01">
+                <div class="card-header p-3 rounded-t-lg">
+                    <div class="flex justify-between items-center">
+                        <p class="font-semibold text-lg text-slate-800">Penawaran Solusi Cloud Backup</p>
+                        <span class="status-badge bg-blue-100 text-blue-800">In Progress</span>
+                    </div>
+                </div>
+                <div class="p-4">
+                    <div class="flex items-center space-x-2 mb-2">
+                        <svg class="h-5 w-5 text-slate-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" /></svg>
+                        <p class="font-medium text-sm text-slate-700">Pelanggan: PT. Maju Mundur</p>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <svg class="h-5 w-5 text-slate-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12m0 0c-1.636 0-3-1.364-3-3s1.364-3 3-3m0 0c1.636 0 3 1.364 3 3s-1.364 3-3 3m0-12c1.636 0 3 1.364 3 3s-1.364 3-3 3" /></svg>
+                        <p class="text-sm text-slate-500">Target: Closing kontrak Rp 50.000.000</p>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <svg class="h-5 w-5 text-slate-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" /></svg>
+                        <p class="text-sm text-slate-500">Tanggal: 1 Juni 2025</p>
+                    </div>
+                    <div class="mt-4 flex justify-between items-center" onclick="event.stopPropagation()">
+                        <div class="flex space-x-2">
+                            <button onclick="changeSalesStatus(this, 'Closed-Won')" class="px-3 py-1 text-xs font-semibold bg-emerald-100 text-emerald-800 rounded-full hover:bg-emerald-200 transition">Won</button>
+                            <button onclick="changeSalesStatus(this, 'Closed-Lost')" class="px-3 py-1 text-xs font-semibold bg-red-100 text-red-800 rounded-full hover:bg-red-200 transition">Lost</button>
+                        </div>
+                        <div class="flex space-x-3">
+                            <button class="action-button text-sm font-semibold text-sky-600 hover:text-sky-800">Edit</button>
+                            <button class="action-button text-sm font-semibold text-red-600 hover:text-red-800">Hapus</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sales-plan-card bg-white p-4 rounded-lg shadow-sm border border-slate-200" data-customer="PT. Maju Mundur" data-status="Closed-Won" data-date="2025-05-15">
+                <div class="card-header p-3 rounded-t-lg">
+                    <div class="flex justify-between items-center">
+                        <p class="font-semibold text-lg text-slate-800">Upgrade Bandwidth Astinet</p>
+                        <span class="status-badge bg-emerald-100 text-emerald-800">Closed-Won</span>
+                    </div>
+                </div>
+                <div class="p-4">
+                    <div class="flex items-center space-x-2 mb-2">
+                        <svg class="h-5 w-5 text-slate-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" /></svg>
+                        <p class="font-medium text-sm text-slate-700">Pelanggan: PT. Maju Mundur</p>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <svg class="h-5 w-5 text-slate-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12m0 0c-1.636 0-3-1.364-3-3s1.364-3 3-3m0 0c1.636 0 3 1.364 3 3s-1.364 3-3 3m0-12c1.636 0 3 1.364 3 3s-1.364 3-3 3" /></svg>
+                        <p class="text-sm text-slate-500">Target: Closing kontrak Rp 120.000.000 / tahun</p>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <svg class="h-5 w-5 text-slate-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" /></svg>
+                        <p class="text-sm text-slate-500">Tanggal: 15 Mei 2025</p>
+                    </div>
+                    <div class="mt-4 flex justify-end space-x-3" onclick="event.stopPropagation()">
+                        <button class="action-button text-sm font-semibold text-sky-600 hover:text-sky-800">Edit</button>
+                        <button class="action-button text-sm font-semibold text-red-600 hover:text-red-800">Hapus</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+                        <!-- Updated Visit Planning Tab for Customer -->
+                        <div id="rencana-visit-content" class="tab-pane hidden">
                             <div class="bg-white rounded-lg shadow-sm p-6">
                                 <div class="flex flex-col md:flex-row md:items-center justify-between mb-6">
-                                    <h3 class="text-lg font-semibold">Daftar Sales Plan</h3>
+                                    <h3 class="text-lg font-semibold">Rencana Visit</h3>
                                     <div class="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-4 mt-4 md:mt-0">
-                                        <select id="status-filter-sales" onchange="filterAndSortSalesPlans()" class="border border-slate-300 rounded-md px-3 py-2 focus:ring-sky-500 focus:border-sky-500 text-sm">
-                                            <option value="all">Semua Status</option>
-                                            <option value="In Progress">In Progress</option>
-                                            <option value="Closed-Won">Closed-Won</option>
-                                            <option value="Closed-Lost">Closed-Lost</option>
-                                        </select>
-                                        <select id="sort-order" onchange="filterAndSortSalesPlans()" class="border border-slate-300 rounded-md px-3 py-2 focus:ring-sky-500 focus:border-sky-500 text-sm">
+                                        <select id="visit-sort-order-tab" onchange="filterVisitsTab()" class="border border-slate-300 rounded-md px-3 py-2 focus:ring-sky-500 focus:border-sky-500 text-sm">
                                             <option value="newest">Terbaru</option>
                                             <option value="oldest">Terlama</option>
                                         </select>
+                                        <button onclick="showModal('add-visit-modal')" class="flex items-center justify-center space-x-2 bg-sky-600 text-white font-semibold px-4 py-2 rounded-lg hover:bg-sky-700 transition duration-200">
+                                            <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
+                                            <span>Rencanakan Visit Baru</span>
+                                        </button>
                                     </div>
                                 </div>
-                                <div id="sales-plan-list" class="space-y-4">
-                                    <div class="sales-plan-card border border-slate-200 p-6 rounded-lg bg-white hover:bg-slate-50" data-status="In Progress" data-date="2025-06-01">
-                                        <div class="flex justify-between items-center mb-4">
-                                            <p class="font-semibold text-lg">Penawaran Solusi Cloud Backup</p>
-                                            <span class="px-3 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800">In Progress</span>
+
+                                <div id="visit-list-tab" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div class="visit-card bg-white p-4 rounded-lg shadow-sm border border-slate-200" data-customer="PT. Maju Mundur" data-date="2025-07-15">
+                                        <div class="card-header p-3 rounded-t-lg">
+                                            <div class="flex justify-between items-center">
+                                                <p class="font-semibold text-lg text-slate-800">Presentasi Solusi Cloud Backup</p>
+                                                <span class="status-badge bg-amber-100 text-amber-800">Terjadwal</span>
+                                            </div>
                                         </div>
-                                        <p class="text-sm text-slate-500">Target: Closing kontrak Rp 50.000.000</p>
-                                        <p class="text-sm text-slate-500">Tanggal: 1 Juni 2025</p>
-                                        <div class="mt-4 flex justify-end space-x-2">
-                                            <button class="text-sm font-semibold text-sky-600 hover:text-sky-800">Edit</button>
-                                            <button class="text-sm font-semibold text-red-600 hover:text-red-800">Hapus</button>
+                                        <div class="p-4">
+                                            <div class="flex items-center space-x-2 mb-2">
+                                                <svg class="h-5 w-5 text-slate-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" /></svg>
+                                                <p class="text-sm text-slate-500 font-medium">Jadwal: 15 Juli 2025, 10:00 WIB</p>
+                                            </div>
+                                            <div class="flex items-center space-x-2">
+                                                <svg class="h-5 w-5 text-slate-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" /></svg>
+                                                <p class="text-sm text-slate-500">Lokasi: Online Meeting</p>
+                                            </div>
+                                            <div class="mt-4 flex justify-between items-center" onclick="event.stopPropagation()">
+                                                <button onclick="markVisitCompleted(this)" class="px-3 py-1 text-xs font-semibold bg-emerald-100 text-emerald-800 rounded-full hover:bg-emerald-200 transition">Selesai Visit</button>
+                                                <div class="flex space-x-3">
+                                                    <button class="action-button text-sm font-semibold text-sky-600 hover:text-sky-800">Edit</button>
+                                                    <button class="action-button text-sm font-semibold text-red-600 hover:text-red-800">Hapus</button>
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="sales-plan-card border border-slate-200 p-6 rounded-lg bg-white hover:bg-slate-50" data-status="Closed-Won" data-date="2025-05-15">
-                                        <div class="flex justify-between items-center mb-4">
-                                            <p class="font-semibold text-lg">Upgrade Bandwidth Astinet</p>
-                                            <span class="px-3 py-1 text-xs font-semibold rounded-full bg-emerald-100 text-emerald-800">Closed-Won</span>
-                                        </div>
-                                        <p class="text-sm text-slate-500">Target: Closing kontrak Rp 120.000.000 / tahun</p>
-                                        <p class="text-sm text-slate-500">Tanggal: 15 Mei 2025</p>
-                                        <div class="mt-4 flex justify-end space-x-2">
-                                            <button class="text-sm font-semibold text-sky-600 hover:text-sky-800">Edit</button>
-                                            <button class="text-sm font-semibold text-red-600 hover:text-red-800">Hapus</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div id="rencana-visit-content" class="tab-pane hidden">
-                            <div class="bg-white rounded-lg shadow-sm p-6">
-                                <div class="flex justify-between items-center mb-4">
-                                    <h3 class="text-lg font-semibold">Rencana Visit Akan Datang</h3>
-                                    <button onclick="showModal('add-visit-modal')" class="flex items-center justify-center space-x-2 bg-slate-200 text-slate-800 font-semibold px-4 py-2 rounded-lg hover:bg-slate-300 transition duration-200">
-                                        <span>Rencanakan Visit Baru</span>
-                                    </button>
-                                </div>
-                                <div class="space-y-4">
-                                    <div class="border border-slate-200 p-4 rounded-lg">
-                                        <p class="font-semibold">Presentasi Solusi Cloud Backup</p>
-                                        <p class="text-sm text-slate-500">Jadwal: 15 Juli 2025, 10:00 WIB (Online Meeting)</p>
-                                        <p class="mt-2 text-sm">Status: <span class="text-amber-600 font-medium">Terjadwal</span></p>
                                     </div>
                                 </div>
                             </div>
                         </div>
+
                         <div id="hasil-visit-content" class="tab-pane hidden">
                             <div class="bg-white rounded-lg shadow-sm p-6">
                                 <div class="flex justify-between items-center mb-6">
@@ -296,12 +609,14 @@
                                         <span>Tambah Laporan Visit</span>
                                     </button>
                                 </div>
+
                                 <div class="space-y-4">
                                     <div class="visit-card border border-slate-200 p-6 rounded-lg bg-white hover:bg-slate-50">
-                                        <div class="flex justify-between items-center mb-4">
+                                        <div class="flex justify-between items-center mb-2">
                                             <p class="font-semibold text-lg">Follow Up Penawaran Upgrade Astinet</p>
-                                            <span class="px-3 py-1 text-xs font-semibold rounded-full bg-emerald-100 text-emerald-800">Sukses</span>
+                                            <span class="status-badge bg-emerald-100 text-emerald-800">Sukses</span>
                                         </div>
+                                        <p class="text-sm text-slate-500">Pelanggan: Koperasi Sejahtera</p>
                                         <p class="text-sm text-slate-500">Jadwal: 28 Juni 2025, 14:00 WIB</p>
                                         <p class="text-sm text-slate-500">Lokasi: Kantor Pelanggan</p>
                                         <div class="mt-4 bg-slate-50 p-4 rounded-md">
@@ -313,11 +628,13 @@
                                             <button class="text-sm font-semibold text-red-600 hover:text-red-800">Hapus</button>
                                         </div>
                                     </div>
+
                                     <div class="visit-card border border-slate-200 p-6 rounded-lg bg-white hover:bg-slate-50">
-                                        <div class="flex justify-between items-center mb-4">
+                                        <div class="flex justify-between items-center mb-2">
                                             <p class="font-semibold text-lg">Kunjungan Awal & Perkenalan</p>
-                                            <span class="px-3 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800">Follow Up</span>
+                                            <span class="status-badge bg-blue-100 text-blue-800">Follow Up</span>
                                         </div>
+                                        <p class="text-sm text-slate-500">Pelanggan: CV. Jaya Abadi</p>
                                         <p class="text-sm text-slate-500">Jadwal: 10 Mei 2025, 09:30 WIB</p>
                                         <p class="text-sm text-slate-500">Lokasi: Kantor Pelanggan</p>
                                         <div class="mt-4 bg-slate-50 p-4 rounded-md">
@@ -332,23 +649,115 @@
                                 </div>
                             </div>
                         </div>
+
                         <div id="komunikasi-content" class="tab-pane hidden">
-                            <div class="bg-white rounded-lg shadow-sm flex flex-col h-[60vh]"><div class="p-4 border-b border-slate-200"><h3 class="font-semibold">Chat dengan Bapak Joko</h3></div><div class="flex-1 p-4 space-y-4 overflow-y-auto"><div class="flex justify-end"><div class="bg-sky-600 text-white p-3 rounded-lg max-w-xs"><p>Selamat pagi Pak Joko, saya ingin konfirmasi untuk jadwal meeting kita besok jam 10 pagi. Apakah sudah sesuai?</p><p class="text-xs text-sky-200 text-right mt-1">10:30 AM</p></div></div><div class="flex justify-start"><div class="bg-slate-200 p-3 rounded-lg max-w-xs"><p>Pagi Mas Budi. Betul, sudah sesuai. Sampai bertemu besok.</p><p class="text-xs text-slate-500 text-right mt-1">10:32 AM</p></div></div></div><div class="p-4 border-t border-slate-200"><div class="flex items-center space-x-2"><input type="text" placeholder="Ketik pesan Anda..." class="w-full border-slate-300 rounded-lg focus:ring-sky-500 focus:border-sky-500"><button class="bg-sky-600 text-white p-2 rounded-lg hover:bg-sky-700"><svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" /></svg></button></div></div></div>
+                            <div class="bg-white rounded-lg shadow-sm flex flex-col h-[60vh]">
+                                <div class="p-4 border-b border-slate-200"><h3 class="font-semibold">Chat dengan Bapak Joko</h3></div>
+                                <div class="flex-1 p-4 space-y-4 overflow-y-auto">
+                                    <div class="flex justify-end"><div class="bg-sky-600 text-white p-3 rounded-lg max-w-xs"><p>Selamat pagi Pak Joko, saya ingin konfirmasi untuk jadwal meeting kita besok jam 10 pagi. Apakah sudah sesuai?</p><p class="text-xs text-sky-200 text-right mt-1">10:30 AM</p></div></div>
+                                    <div class="flex justify-start"><div class="bg-slate-200 p-3 rounded-lg max-w-xs"><p>Pagi Mas Budi. Betul, sudah sesuai. Sampai bertemu besok.</p><p class="text-xs text-slate-500 text-right mt-1">10:32 AM</p></div></div>
+                                </div>
+                                <div class="p-4 border-t border-slate-200">
+                                    <div class="flex items-center space-x-2">
+                                        <input type="text" placeholder="Ketik pesan Anda..." class="w-full border-slate-300 rounded-lg focus:ring-sky-500 focus:border-sky-500">
+                                        <button class="bg-sky-600 text-white p-2 rounded-lg hover:bg-sky-700">
+                                            <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" /></svg>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </main>
         </div>
     </div>
+
     <div id="login-page" class="flex items-center justify-center h-screen">
-        <div class="bg-white p-8 rounded-xl shadow-lg w-full max-w-md"><div class="flex items-center space-x-2 justify-center mb-6"><svg class="h-10 w-10 text-red-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A12.75 12.75 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.916 17.916 0 0112 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 013 12c0-1.605.42-3.113 1.157-4.418" /></svg><h1 class="text-2xl font-bold text-slate-800">CRM Super Mini Lite</h1></div><p class="text-center text-slate-500 mb-6">Silakan masuk untuk melanjutkan</p><div class="space-y-4"><div><label for="email" class="block text-sm font-medium text-slate-700">Email</label><input type="email" id="email" value="budi.am@telkom.co.id" class="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md shadow-sm placeholder-slate-400 focus:outline-none focus:ring-sky-500 focus:border-sky-500 sm:text-sm"></div><div><label for="password" class="block text-sm font-medium text-slate-700">Password</label><input type="password" id="password" value="password" class="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md shadow-sm placeholder-slate-400 focus:outline-none focus:ring-sky-500 focus:border-sky-500 sm:text-sm"></div><button onclick="document.getElementById('login-page').classList.add('hidden');document.getElementById('app-container').classList.remove('hidden');showPage('dashboard-page')" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-sky-600 hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500">Masuk</button></div></div>
+        <div class="bg-white p-8 rounded-xl shadow-lg w-full max-w-md">
+            <div class="flex items-center space-x-2 justify-center mb-6">
+                <svg class="h-10 w-10 text-red-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.916 17.916 0 0112 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 013 12c0-1.605.42-3.113 1.157-4.418" /></svg>
+                <h1 class="text-2xl font-bold text-slate-800">CRM Super Mini Lite</h1>
+            </div>
+            <p class="text-center text-slate-500 mb-6">Silakan masuk untuk melanjutkan</p>
+            <div class="space-y-4">
+                <div><label for="email" class="block text-sm font-medium text-slate-700">Email</label><input type="email" id="email" value="budi.am@telkom.co.id" class="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md shadow-sm placeholder-slate-400 focus:outline-none focus:ring-sky-500 focus:border-sky-500 sm:text-sm"></div>
+                <div><label for="password" class="block text-sm font-medium text-slate-700">Password</label><input type="password" id="password" value="password" class="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md shadow-sm placeholder-slate-400 focus:outline-none focus:ring-sky-500 focus:border-sky-500 sm:text-sm"></div>
+                <button onclick="document.getElementById('login-page').classList.add('hidden');document.getElementById('app-container').classList.remove('hidden');showPage('dashboard-page')" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-sky-600 hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500">Masuk</button>
+            </div>
+        </div>
     </div>
-    <div id="add-customer-modal" class="modal hidden fixed inset-0 z-50 flex items-center justify-center p-4"><div class="modal-backdrop fixed inset-0"></div><div class="bg-white rounded-lg shadow-xl w-full max-w-lg z-10"><div class="p-6 border-b"><h3 class="text-xl font-semibold">Tambah Pelanggan Baru</h3></div><div class="p-6 space-y-4"><div><label class="block text-sm font-medium text-slate-700">Nama Perusahaan</label><input type="text" class="mt-1 block w-full border-slate-300 rounded-md shadow-sm focus:ring-sky-500 focus:border-sky-500"></div><div><label class="block text-sm font-medium text-slate-700">Industri</label><select class="mt-1 block w-full border-slate-300 rounded-md shadow-sm focus:ring-sky-500 focus:border-sky-500"><option value="Manufaktur">Manufaktur</option><option value="Retail">Retail</option><option value="Keuangan">Keuangan</option><option value="Pariwisata">Pariwisata</option><option value="F&B">F&B</option><option value="Kesehatan">Kesehatan</option><option value="Pendidikan">Pendidikan</option><option value="Properti">Properti</option><option value="Pemerintah">Pemerintah</option><option value="Logistik">Logistik</option><option value="Agribisnis">Agribisnis</option></select></div></div><div class="p-4 bg-slate-50 flex justify-end space-x-2"><button onclick="hideModal('add-customer-modal')" class="px-4 py-2 bg-slate-200 text-slate-800 rounded-lg hover:bg-slate-300">Batal</button><button class="px-4 py-2 bg-sky-600 text-white rounded-lg hover:bg-sky-700">Simpan</button></div></div></div>
-    <div id="add-sales-plan-modal" class="modal hidden fixed inset-0 z-50 flex items-center justify-center p-4"><div class="modal-backdrop fixed inset-0"></div><div class="bg-white rounded-lg shadow Lodge-xl w-full max-w-lg z-10"><div class="p-6 border-b"><h3 class="text-xl font-semibold">Buat Sales Plan Baru</h3></div><div class="p-6 space-y-4"><div><label class="block text-sm font-medium text-slate-700">Nama Plan</label><input type="text" placeholder="Contoh: Penawaran Solusi Cloud Backup" class="mt-1 block w-full border-slate-300 rounded-md shadow-sm focus:ring-sky-500 focus:border-sky-500"></div><div><label class="block text-sm font-medium text-slate-700">Produk/Layanan Ditawarkan</label><input type="text" class="mt-1 block w-full border-slate-300 rounded-md shadow-sm focus:ring-sky-500 focus:border-sky-500"></div><div><label class="block text-sm font-medium text-slate-700">Target</label><input type="text" placeholder="Contoh: Closing kontrak Rp 50.000.000" class="mt-1 block w-full border-slate-300 rounded-md shadow-sm focus:ring-sky-500 focus:border-sky-500"></div><div><label class="block text-sm font-medium text-slate-700">Tanggal</label><input type="date" class="mt-1 block w-full border-slate-300 rounded-md shadow-sm focus:ring-sky-500 focus:border-sky-500"></div></div><div class="p-4 bg-slate-50 flex justify-end space-x-2"><button onclick="hideModal('add-sales-plan-modal')" class="px-4 py-2 bg-slate-200 text-slate-800 rounded-lg hover:bg-slate-300">Batal</button><button class="px-4 py-2 bg-sky-600 text-white rounded-lg hover:bg-sky-700">Simpan</button></div></div></div>
-    <div id="add-visit-modal" class="modal hidden fixed inset-0 z-50 flex items-center justify-center p-4"><div class="modal-backdrop fixed inset-0"></div><div class="bg-white rounded-lg shadow-xl w-full max-w-lg z-10"><div class="p-6 border-b"><h3 class="text-xl font-semibold">Rencanakan Visit Baru</h3></div><div class="p-6 space-y-4"><div><label class="block text-sm font-medium text-slate-700">Tanggal & Waktu</label><input type="datetime-local" class="mt-1 block w-full border-slate-300 rounded-md shadow-sm focus:ring-sky-500 focus:border-sky-500"></div><div><label class="block text-sm font-medium text-slate-700">Tujuan Visit</label><input type="text" placeholder="Contoh: Presentasi Solusi Cloud Backup" class="mt-1 block w-full border-slate-300 rounded-md shadow-sm focus:ring-sky-500 focus:border-sky-500"></div><div><label class="block text-sm font-medium text-slate-700">Lokasi / Metode</label><select class="mt-1 block w-full border-slate-300 rounded-md shadow-sm focus:ring-sky-500 focus:border-sky-500"><option>Kantor Pelanggan</option><option>Online Meeting</option><option>Lainnya</option></select></div></div><div class="p-4 bg-slate-50 flex justify-end space-x-2"><button onclick="hideModal('add-visit-modal')" class="px-4 py-2 bg-slate-200 text-slate-800 rounded-lg hover:bg-slate-300">Batal</button><button class="px-4 py-2 bg-sky-600 text-white rounded-lg hover:bg-sky-700">Simpan & Notifikasi Pelanggan</button></div></div></div>
-    <div id="add-visit-report-modal" class="modal hidden fixed inset-0 z-50 flex items-center justify-center p-4"><div class="modal-backdrop fixed inset-0"></div><div class="bg-white rounded-lg shadow-xl w-full max-w-lg z-10"><div class="p-6 border-b"><h3 class="text-xl font-semibold">Tambah Laporan Visit</h3></div><div class="p-6 space-y-4"><div><label class="block text-sm font-medium text-slate-700">Tanggal & Waktu</label><input type="datetime-local" class="mt-1 block w-full border-slate-300 rounded-md shadow-sm focus:ring-sky-500 focus:border-sky-500"></div><div><label class="block text-sm font-medium text-slate-700">Tujuan Visit</label><input type="text" placeholder="Contoh: Follow Up Penawaran" class="mt-1 block w-full border-slate-300 rounded-md shadow-sm focus:ring-sky-500 focus:border-sky-500"></div><div><label class="block text-sm font-medium text-slate-700">Lokasi / Metode</label><select class="mt-1 block w-full border-slate-300 rounded-md shadow-sm focus:ring-sky-500 focus:border-sky-500"><option>Kantor Pelanggan</option><option>Online Meeting</option><option>Lainnya</option></select></div><div><label class="block text-sm font-medium text-slate-700">Status</label><select class="mt-1 block w-full border-slate-300 rounded-md shadow-sm focus:ring-sky-500 focus:border-sky-500"><option>Sukses</option><option>Follow Up</option><option>Batal</option></select></div><div><label class="block text-sm font-medium text-slate-700">Laporan Visit</label><textarea rows="4" placeholder="Masukkan detail laporan visit..." class="mt-1 block w-full border-slate-300 rounded-md shadow-sm focus:ring-sky-500 focus:border-sky-500"></textarea></div></div><div class="p-4 bg-slate-50 flex justify-end space-x-2"><button onclick="hideModal('add-visit-report-modal')" class="px-4 py-2 bg-slate-200 text-slate-800 rounded-lg hover:bg-slate-300">Batal</button><button class="px-4 py-2 bg-sky-600 text-white rounded-lg hover:bg-sky-700">Simpan</button></div></div></div>
+
+    <!-- Modals -->
+    <div id="add-customer-modal" class="modal hidden fixed inset-0 z-50 flex items-center justify-center p-4">
+        <div class="modal-backdrop fixed inset-0" onclick="hideModal('add-customer-modal')"></div>
+        <div class="bg-white rounded-lg shadow-xl w-full max-w-lg z-10">
+            <div class="p-6 border-b"><h3 class="text-xl font-semibold">Tambah Pelanggan Baru</h3></div>
+            <div class="p-6 space-y-4">
+                <div><label class="block text-sm font-medium text-slate-700">Nama Perusahaan</label><input type="text" class="mt-1 block w-full border-slate-300 rounded-md shadow-sm focus:ring-sky-500 focus:border-sky-500"></div>
+                <div><label class="block text-sm font-medium text-slate-700">Industri</label><select class="mt-1 block w-full border-slate-300 rounded-md shadow-sm focus:ring-sky-500 focus:border-sky-500"><option value="Manufaktur">Manufaktur</option><option value="Retail">Retail</option><option value="Keuangan">Keuangan</option><option value="Pariwisata">Pariwisata</option><option value="F&B">F&B</option><option value="Kesehatan">Kesehatan</option><option value="Pendidikan">Pendidikan</option><option value="Properti">Properti</option><option value="Pemerintah">Pemerintah</option><option value="Logistik">Logistik</option><option value="Agribisnis">Agribisnis</option></select></div>
+            </div>
+            <div class="p-4 bg-slate-50 flex justify-end space-x-2">
+                <button onclick="hideModal('add-customer-modal')" class="px-4 py-2 bg-slate-200 text-slate-800 rounded-lg hover:bg-slate-300">Batal</button>
+                <button class="px-4 py-2 bg-sky-600 text-white rounded-lg hover:bg-sky-700">Simpan</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="add-sales-plan-modal" class="modal hidden fixed inset-0 z-50 flex items-center justify-center p-4">
+        <div class="modal-backdrop fixed inset-0" onclick="hideModal('add-sales-plan-modal')"></div>
+        <div class="bg-white rounded-lg shadow-xl w-full max-w-lg z-10">
+            <div class="p-6 border-b"><h3 class="text-xl font-semibold">Buat Sales Plan Baru</h3></div>
+            <div class="p-6 space-y-4">
+                <div><label class="block text-sm font-medium text-slate-700">Nama Plan</label><input type="text" placeholder="Contoh: Penawaran Solusi Cloud Backup" class="mt-1 block w-full border-slate-300 rounded-md shadow-sm focus:ring-sky-500 focus:border-sky-500"></div>
+                <div><label class="block text-sm font-medium text-slate-700">Produk/Layanan Ditawarkan</label><input type="text" class="mt-1 block w-full border-slate-300 rounded-md shadow-sm focus:ring-sky-500 focus:border-sky-500"></div>
+                <div><label class="block text-sm font-medium text-slate-700">Target</label><input type="text" placeholder="Contoh: Closing kontrak Rp 50.000.000" class="mt-1 block w-full border-slate-300 rounded-md shadow-sm focus:ring-sky-500 focus:border-sky-500"></div>
+                <div><label class="block text-sm font-medium text-slate-700">Tanggal</label><input type="date" class="mt-1 block w-full border-slate-300 rounded-md shadow-sm focus:ring-sky-500 focus:border-sky-500"></div>
+            </div>
+            <div class="p-4 bg-slate-50 flex justify-end space-x-2">
+                <button onclick="hideModal('add-sales-plan-modal')" class="px-4 py-2 bg-slate-200 text-slate-800 rounded-lg hover:bg-slate-300">Batal</button>
+                <button class="px-4 py-2 bg-sky-600 text-white rounded-lg hover:bg-sky-700">Simpan</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="add-visit-modal" class="modal hidden fixed inset-0 z-50 flex items-center justify-center p-4">
+        <div class="modal-backdrop fixed inset-0" onclick="hideModal('add-visit-modal')"></div>
+        <div class="bg-white rounded-lg shadow-xl w-full max-w-lg z-10">
+            <div class="p-6 border-b"><h3 class="text-xl font-semibold">Rencanakan Visit Baru</h3></div>
+            <div class="p-6 space-y-4">
+                <div><label class="block text-sm font-medium text-slate-700">Tanggal & Waktu</label><input type="datetime-local" class="mt-1 block w-full border-slate-300 rounded-md shadow-sm focus:ring-sky-500 focus:border-sky-500"></div>
+                <div><label class="block text-sm font-medium text-slate-700">Tujuan Visit</label><input type="text" placeholder="Contoh: Presentasi Solusi Cloud Backup" class="mt-1 block w-full border-slate-300 rounded-md shadow-sm focus:ring-sky-500 focus:border-sky-500"></div>
+                <div><label class="block text-sm font-medium text-slate-700">Lokasi / Metode</label><select class="mt-1 block w-full border-slate-300 rounded-md shadow-sm focus:ring-sky-500 focus:border-sky-500"><option>Kantor Pelanggan</option><option>Online Meeting</option><option>Lainnya</option></select></div>
+            </div>
+            <div class="p-4 bg-slate-50 flex justify-end space-x-2">
+                <button onclick="hideModal('add-visit-modal')" class="px-4 py-2 bg-slate-200 text-slate-800 rounded-lg hover:bg-slate-300">Batal</button>
+                <button class="px-4 py-2 bg-sky-600 text-white rounded-lg hover:bg-sky-700">Simpan & Notifikasi Pelanggan</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="add-visit-report-modal" class="modal hidden fixed inset-0 z-50 flex items-center justify-center p-4">
+        <div class="modal-backdrop fixed inset-0" onclick="hideModal('add-visit-report-modal')"></div>
+        <div class="bg-white rounded-lg shadow-xl w-full max-w-lg z-10">
+            <div class="p-6 border-b"><h3 class="text-xl font-semibold">Tambah Laporan Visit</h3></div>
+            <div class="p-6 space-y-4">
+                <div><label class="block text-sm font-medium text-slate-700">Tanggal & Waktu</label><input type="datetime-local" class="mt-1 block w-full border-slate-300 rounded-md shadow-sm focus:ring-sky-500 focus:border-sky-500"></div>
+                <div><label class="block text-sm font-medium text-slate-700">Tujuan Visit</label><input type="text" placeholder="Contoh: Follow Up Penawaran" class="mt-1 block w-full border-slate-300 rounded-md shadow-sm focus:ring-sky-500 focus:border-sky-500"></div>
+                <div><label class="block text-sm font-medium text-slate-700">Lokasi / Metode</label><select class="mt-1 block w-full border-slate-300 rounded-md shadow-sm focus:ring-sky-500 focus:border-sky-500"><option>Kantor Pelanggan</option><option>Online Meeting</option><option>Lainnya</option></select></div>
+                <div><label class="block text-sm font-medium text-slate-700">Status Visit</label><select class="mt-1 block w-full border-slate-300 rounded-md shadow-sm focus:ring-sky-500 focus:border-sky-500"><option>Sukses</option><option>Follow Up</option><option>Tidak Berhasil</option></select></div>
+                <div><label class="block text-sm font-medium text-slate-700">Laporan Visit</label><textarea rows="4" placeholder="Deskripsikan hasil visit dan next action..." class="mt-1 block w-full border-slate-300 rounded-md shadow-sm focus:ring-sky-500 focus:border-sky-500"></textarea></div>
+            </div>
+            <div class="p-4 bg-slate-50 flex justify-end space-x-2">
+                <button onclick="hideModal('add-visit-report-modal')" class="px-4 py-2 bg-slate-200 text-slate-800 rounded-lg hover:bg-slate-300">Batal</button>
+                <button class="px-4 py-2 bg-sky-600 text-white rounded-lg hover:bg-sky-700">Simpan Laporan</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Improved Pain Points Modal -->
     <div id="pain-points-modal" class="modal hidden fixed inset-0 z-50 flex items-center justify-center p-4">
-        <div class="modal-backdrop fixed inset-0"></div>
+        <div class="modal-backdrop fixed inset-0" onclick="hideModal('pain-points-modal')"></div>
         <div class="bg-white rounded-lg shadow-xl w-full max-w-2xl z-10 flex flex-col max-h-[90vh]">
             <div class="p-6 border-b sticky top-0 bg-white">
                 <h3 class="text-xl font-semibold">Input Pain Points Pelanggan</h3>
@@ -381,82 +790,285 @@
             </div>
         </div>
     </div>
+
+    <!-- Visit Completion Modal -->
+    <div id="visit-completion-modal" class="modal hidden fixed inset-0 z-50 flex items-center justify-center p-4">
+        <div class="modal-backdrop fixed inset-0" onclick="hideModal('visit-completion-modal')"></div>
+        <div class="bg-white rounded-lg shadow-xl w-full max-w-lg z-10">
+            <div class="p-6 border-b"><h3 class="text-xl font-semibold">Input Hasil Visit</h3></div>
+            <div class="p-6 space-y-4">
+                <div><label class="block text-sm font-medium text-slate-700">Status Visit</label><select id="visit-completion-status" class="mt-1 block w-full border-slate-300 rounded-md shadow-sm focus:ring-sky-500 focus:border-sky-500"><option>Sukses</option><option>Follow Up</option><option>Tidak Berhasil</option></select></div>
+                <div><label class="block text-sm font-medium text-slate-700">Laporan Visit</label><textarea id="visit-completion-report" rows="4" placeholder="Deskripsikan hasil visit dan next action..." class="mt-1 block w-full border-slate-300 rounded-md shadow-sm focus:ring-sky-500 focus:border-sky-500"></textarea></div>
+            </div>
+            <div class="p-4 bg-slate-50 flex justify-end space-x-2">
+                <button onclick="hideModal('visit-completion-modal')" class="px-4 py-2 bg-slate-200 text-slate-800 rounded-lg hover:bg-slate-300">Batal</button>
+                <button onclick="saveVisitCompletion()" class="px-4 py-2 bg-sky-600 text-white rounded-lg hover:bg-sky-700">Simpan Hasil Visit</button>
+            </div>
+        </div>
+    </div>
+
     <script>
+        let currentVisitCard = null;
+
+        // Page navigation
         function showPage(pageId) {
-            document.querySelectorAll('.page').forEach(page => page.classList.add('hidden'));
+            const pages = document.querySelectorAll('.page');
+            pages.forEach(page => page.classList.add('hidden'));
             document.getElementById(pageId).classList.remove('hidden');
         }
-        const tabLinks = document.querySelectorAll('.tab-link');
-        const tabPanes = document.querySelectorAll('.tab-pane');
-        tabLinks.forEach(link => {
-            link.addEventListener('click', function(e) {
-                e.preventDefault();
-                const tabId = this.dataset.tab;
-                tabLinks.forEach(l => {
-                    l.classList.remove('border-sky-500', 'text-sky-600');
-                    l.classList.add('border-transparent', 'text-slate-500', 'hover:text-slate-700', 'hover:border-slate-300');
-                });
-                this.classList.add('border-sky-500', 'text-sky-600');
-                this.classList.remove('border-transparent', 'text-slate-500');
-                tabPanes.forEach(pane => pane.classList.add('hidden'));
-                document.getElementById(tabId + '-content').classList.remove('hidden');
-            });
-        });
+
+        // Modal functions
         function showModal(modalId) {
             document.getElementById(modalId).classList.remove('hidden');
         }
+
         function hideModal(modalId) {
             document.getElementById(modalId).classList.add('hidden');
         }
-        document.querySelectorAll('.modal-backdrop').forEach(backdrop => {
-            backdrop.addEventListener('click', () => {
-                backdrop.closest('.modal').classList.add('hidden');
+
+        // Customer profile function
+        function showCustomerProfile(customerName, industry) {
+            document.getElementById('customer-name').textContent = customerName;
+            document.getElementById('customer-industry').textContent = `Industri ${industry}`;
+            showPage('customer-profile-page');
+            showTab('profil');
+        }
+
+        // Tab switching
+        function showTab(tabName) {
+            const tabPanes = document.querySelectorAll('.tab-pane');
+            tabPanes.forEach(pane => pane.classList.add('hidden'));
+            document.getElementById(tabName + '-content').classList.remove('hidden');
+            
+            const tabLinks = document.querySelectorAll('.tab-link');
+            tabLinks.forEach(link => {
+                link.classList.remove('border-sky-500', 'text-sky-600');
+                link.classList.add('border-transparent', 'text-slate-500');
+            });
+            
+            const activeTab = document.querySelector(`[data-tab="${tabName}"]`);
+            if (activeTab) {
+                activeTab.classList.remove('border-transparent', 'text-slate-500');
+                activeTab.classList.add('border-sky-500', 'text-sky-600');
+            }
+        }
+
+        // Add event listeners for tabs
+        document.addEventListener('DOMContentLoaded', function() {
+            const tabLinks = document.querySelectorAll('.tab-link');
+            tabLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const tabName = this.getAttribute('data-tab');
+                    showTab(tabName);
+                });
             });
         });
+
+        // Filter customers
+        function filterCustomers() {
+            const searchTerm = document.getElementById('customer-search').value.toLowerCase();
+            const industryFilter = document.getElementById('industry-filter').value;
+            const statusFilter = document.getElementById('status-filter').value;
+            const rows = document.querySelectorAll('.customer-row');
+
+            rows.forEach(row => {
+                const name = row.getAttribute('data-name').toLowerCase();
+                const industry = row.getAttribute('data-industry');
+                const status = row.getAttribute('data-status');
+
+                const matchesSearch = name.includes(searchTerm);
+                const matchesIndustry = industryFilter === 'all' || industry === industryFilter;
+                const matchesStatus = statusFilter === 'all' || status === statusFilter;
+
+                if (matchesSearch && matchesIndustry && matchesStatus) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }
+
+        // Filter visits
+        function filterVisits() {
+            const searchTerm = document.getElementById('visit-customer-search').value.toLowerCase();
+            const sortOrder = document.getElementById('visit-sort-order').value;
+            const visitCards = Array.from(document.querySelectorAll('#visit-list .visit-card'));
+
+            visitCards.forEach(card => {
+                const customer = card.getAttribute('data-customer').toLowerCase();
+                if (customer.includes(searchTerm)) {
+                    card.style.display = '';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            const visibleCards = visitCards.filter(card => card.style.display !== 'none');
+            visibleCards.sort((a, b) => {
+                const dateA = new Date(a.getAttribute('data-date'));
+                const dateB = new Date(b.getAttribute('data-date'));
+                return sortOrder === 'newest' ? dateB - dateA : dateA - dateB;
+            });
+
+            const container = document.getElementById('visit-list');
+            visibleCards.forEach(card => container.appendChild(card));
+        }
+
+        // Filter visits in customer tab
+        function filterVisitsTab() {
+            const sortOrder = document.getElementById('visit-sort-order-tab').value;
+            const visitCards = Array.from(document.querySelectorAll('#visit-list-tab .visit-card'));
+
+            visitCards.sort((a, b) => {
+                const dateA = new Date(a.getAttribute('data-date'));
+                const dateB = new Date(b.getAttribute('data-date'));
+                return sortOrder === 'newest' ? dateB - dateA : dateA - dateB;
+            });
+
+            const container = document.getElementById('visit-list-tab');
+            visitCards.forEach(card => container.appendChild(card));
+        }
+
+        // Filter and sort sales plans
+        function filterAndSortSalesPlans() {
+            const searchTerm = document.getElementById('sales-customer-search').value.toLowerCase();
+            const statusFilter = document.getElementById('status-filter-sales').value;
+            const sortOrder = document.getElementById('sales-sort-order').value;
+            const salesCards = Array.from(document.querySelectorAll('#sales-plan-list .sales-plan-card'));
+
+            salesCards.forEach(card => {
+                const customer = card.getAttribute('data-customer').toLowerCase();
+                const status = card.getAttribute('data-status');
+                
+                const matchesSearch = customer.includes(searchTerm);
+                const matchesStatus = statusFilter === 'all' || status === statusFilter;
+
+                if (matchesSearch && matchesStatus) {
+                    card.style.display = '';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            const visibleCards = salesCards.filter(card => card.style.display !== 'none');
+            visibleCards.sort((a, b) => {
+                const dateA = new Date(a.getAttribute('data-date'));
+                const dateB = new Date(b.getAttribute('data-date'));
+                return sortOrder === 'newest' ? dateB - dateA : dateA - dateB;
+            });
+
+            const container = document.getElementById('sales-plan-list');
+            visibleCards.forEach(card => container.appendChild(card));
+        }
+
+        // Filter and sort sales plans in tab
+        function filterAndSortSalesPlansTab() {
+            const statusFilter = document.getElementById('status-filter-sales-tab').value;
+            const sortOrder = document.getElementById('sort-order-tab').value;
+            const salesCards = Array.from(document.querySelectorAll('#sales-plan-list-tab .sales-plan-card'));
+
+            salesCards.forEach(card => {
+                const status = card.getAttribute('data-status');
+                const matchesStatus = statusFilter === 'all' || status === statusFilter;
+
+                if (matchesStatus) {
+                    card.style.display = '';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            const visibleCards = salesCards.filter(card => card.style.display !== 'none');
+            visibleCards.sort((a, b) => {
+                const dateA = new Date(a.getAttribute('data-date'));
+                const dateB = new Date(b.getAttribute('data-date'));
+                return sortOrder === 'newest' ? dateB - dateA : dateA - dateB;
+            });
+
+            const container = document.getElementById('sales-plan-list-tab');
+            visibleCards.forEach(card => container.appendChild(card));
+        }
+
+        // Change sales status function
+        function changeSalesStatus(button, newStatus) {
+            const card = button.closest('.sales-plan-card');
+            const statusBadge = card.querySelector('.status-badge');
+            
+            statusBadge.textContent = newStatus;
+            statusBadge.className = 'status-badge';
+            
+            if (newStatus === 'Closed-Won') {
+                statusBadge.classList.add('bg-emerald-100', 'text-emerald-800');
+            } else if (newStatus === 'Closed-Lost') {
+                statusBadge.classList.add('bg-red-100', 'text-red-800');
+            }
+            
+            card.setAttribute('data-status', newStatus);
+            
+            const buttonContainer = button.parentElement;
+            buttonContainer.style.display = 'none';
+            
+            alert(`Status berhasil diubah menjadi ${newStatus}`);
+        }
+
+        // Mark visit as completed
+        function markVisitCompleted(button) {
+            currentVisitCard = button.closest('.visit-card');
+            showModal('visit-completion-modal');
+        }
+
+        // Save visit completion
+        function saveVisitCompletion() {
+            const status = document.getElementById('visit-completion-status').value;
+            const report = document.getElementById('visit-completion-report').value;
+            
+            if (!report.trim()) {
+                alert('Mohon isi laporan visit terlebih dahulu');
+                return;
+            }
+
+            // Hide the visit from planning and add to results
+            if (currentVisitCard) {
+                currentVisitCard.style.display = 'none';
+                
+                // Create new visit result entry (this would normally be saved to database)
+                const visitTitle = currentVisitCard.querySelector('.font-semibold').textContent;
+                const customerName = currentVisitCard.getAttribute('data-customer');
+                
+                alert(`Visit "${visitTitle}" berhasil diselesaikan dengan status: ${status}`);
+            }
+            
+            hideModal('visit-completion-modal');
+            
+            // Clear form
+            document.getElementById('visit-completion-status').value = 'Sukses';
+            document.getElementById('visit-completion-report').value = '';
+            currentVisitCard = null;
+        }
+
+        // Save pain points function
         function savePainPoints() {
             hideModal('pain-points-modal');
             document.getElementById('pain-points-empty').classList.add('hidden');
             document.getElementById('pain-points-filled').classList.remove('hidden');
+            alert('Pain points berhasil disimpan!');
         }
-        function filterAndSortSalesPlans() {
-            const statusFilter = document.getElementById('status-filter-sales').value;
-            const sortOrder = document.getElementById('sort-order').value;
-            const salesPlans = Array.from(document.querySelectorAll('.sales-plan-card'));
-            let filteredPlans = salesPlans;
-            if (statusFilter !== 'all') {
-                filteredPlans = salesPlans.filter(plan => plan.dataset.status === statusFilter);
-            }
-            filteredPlans.sort((a, b) => {
-                const dateA = new Date(a.dataset.date);
-                const dateB = new Date(b.dataset.date);
-                return sortOrder === 'newest' ? dateB - dateA : dateA - dateB;
-            });
-            const salesPlanList = document.getElementById('sales-plan-list');
-            salesPlanList.innerHTML = '';
-            filteredPlans.forEach(plan => salesPlanList.appendChild(plan));
-            salesPlans.forEach(plan => {
-                if (!filteredPlans.includes(plan)) {
-                    plan.style.display = 'none';
-                } else {
-                    plan.style.display = 'block';
+
+        // Close modals when clicking backdrop
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('modal-backdrop')) {
+                const modal = e.target.closest('.modal');
+                if (modal) {
+                    modal.classList.add('hidden');
                 }
-            });
-        }
-        function filterCustomers() {
-            const searchQuery = document.getElementById('customer-search').value.toLowerCase();
-            const industryFilter = document.getElementById('industry-filter').value;
-            const statusFilter = document.getElementById('status-filter').value;
-            const customerRows = Array.from(document.querySelectorAll('.customer-row'));
-            customerRows.forEach(row => {
-                const name = row.dataset.name.toLowerCase();
-                const industry = row.dataset.industry;
-                const status = row.dataset.status;
-                const matchesSearch = name.includes(searchQuery);
-                const matchesIndustry = industryFilter === 'all' || industry === industryFilter;
-                const matchesStatus = statusFilter === 'all' || status === statusFilter;
-                row.style.display = matchesSearch && matchesIndustry && matchesStatus ? '' : 'none';
-            });
-        }
+            }
+        });
+
+        // Initialize the app
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('login-page').classList.remove('hidden');
+        });
     </script>
 </body>
 </html>
