@@ -1,0 +1,90 @@
+<div id="active-sales-plans-page" class="page hidden">
+    <div class="mb-6">
+        <button onclick="showPage('dashboard-page')" class="flex items-center space-x-2 text-slate-500 hover:text-slate-800 font-semibold mb-4">
+            <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" /></svg>
+            <span>Kembali ke Dashboard</span>
+        </button>
+        <h1 class="text-3xl font-bold">Sales Plan Aktif</h1>
+    </div>
+
+    <div class="bg-white rounded-lg shadow-sm p-6">
+        <div class="flex flex-col md:flex-row md:items-center justify-between mb-6">
+            <h3 class="text-lg font-semibold">Daftar Sales Plan Aktif</h3>
+            <div class="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-4 mt-4 md:mt-0">
+                <input type="text" id="sales-customer-search" placeholder="Cari nama pelanggan..." class="border border-slate-300 rounded-md px-3 py-2 focus:ring-sky-500 focus:border-sky-500 text-sm" oninput="filterAndSortSalesPlans()">
+                <select id="status-filter-sales" onchange="filterAndSortSalesPlans()" class="border border-slate-300 rounded-md px-3 py-2 focus:ring-sky-500 focus:border-sky-500 text-sm">
+                    <option value="all">Semua Status</option>
+                    <option value="In Progress">In Progress</option>
+                    <option value="Closed-Won">Closed-Won</option>
+                    <option value="Closed-Lost">Closed-Lost</option>
+                </select>
+                <select id="sales-sort-order" onchange="filterAndSortSalesPlans()" class="border border-slate-300 rounded-md px-3 py-2 focus:ring-sky-500 focus:border-sky-500 text-sm">
+                    <option value="newest">Terbaru</option>
+                    <option value="oldest">Terlama</option>
+                </select>
+            </div>
+        </div>
+
+        <div id="sales-plan-list" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="sales-plan-card bg-white p-4 rounded-lg shadow-sm border border-slate-200" onclick="showCustomerProfile('PT. Maju Mundur', 'Manufaktur')" data-customer="PT. Maju Mundur" data-status="In Progress" data-date="2025-06-01">
+                <div class="card-header p-3 rounded-t-lg">
+                    <div class="flex justify-between items-center">
+                        <p class="font-semibold text-lg text-slate-800">Penawaran Solusi Cloud Backup</p>
+                        <span class="status-badge bg-blue-100 text-blue-800">In Progress</span>
+                    </div>
+                </div>
+                <div class="p-4">
+                    <div class="flex items-center space-x-2 mb-2">
+                        <svg class="h-5 w-5 text-slate-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" /></svg>
+                        <p class="font-medium text-sm text-slate-700">Pelanggan: PT. Maju Mundur</p>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <svg class="h-5 w-5 text-slate-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12m0 0c-1.636 0-3-1.364-3-3s1.364-3 3-3m0 0c1.636 0 3 1.364 3 3s-1.364 3-3 3m0-12c1.636 0 3 1.364 3 3s-1.364 3-3 3" /></svg>
+                        <p class="text-sm text-slate-500">Target: Closing kontrak Rp 50.000.000</p>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <svg class="h-5 w-5 text-slate-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" /></svg>
+                        <p class="text-sm text-slate-500">Tanggal: 1 Juni 2025</p>
+                    </div>
+                    <div class="mt-4 flex justify-between items-center" onclick="event.stopPropagation()">
+                        <div class="flex space-x-2">
+                            <button onclick="changeSalesStatus(this, 'Closed-Won')" class="px-3 py-1 text-xs font-semibold bg-emerald-100 text-emerald-800 rounded-full hover:bg-emerald-200 transition">Won</button>
+                            <button onclick="changeSalesStatus(this, 'Closed-Lost')" class="px-3 py-1 text-xs font-semibold bg-red-100 text-red-800 rounded-full hover:bg-red-200 transition">Lost</button>
+                        </div>
+                        <div class="flex space-x-3">
+                            <button class="action-button text-sm font-semibold text-sky-600 hover:text-sky-800">Edit</button>
+                            <button class="action-button text-sm font-semibold text-red-600 hover:text-red-800">Hapus</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sales-plan-card bg-white p-4 rounded-lg shadow-sm border border-slate-200" onclick="showCustomerProfile('Koperasi Sejahtera', 'Keuangan')" data-customer="Koperasi Sejahtera" data-status="Closed-Won" data-date="2025-05-15">
+                <div class="card-header p-3 rounded-t-lg">
+                    <div class="flex justify-between items-center">
+                        <p class="font-semibold text-lg text-slate-800">Upgrade Bandwidth Astinet</p>
+                        <span class="status-badge bg-emerald-100 text-emerald-800">Closed-Won</span>
+                    </div>
+                </div>
+                <div class="p-4">
+                    <div class="flex items-center space-x-2 mb-2">
+                        <svg class="h-5 w-5 text-slate-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 717.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" /></svg>
+                        <p class="font-medium text-sm text-slate-700">Pelanggan: Koperasi Sejahtera</p>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <svg class="h-5 w-5 text-slate-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12m0 0c-1.636 0-3-1.364-3-3s1.364-3 3-3m0 0c1.636 0 3 1.364 3 3s-1.364 3-3 3m0-12c1.636 0 3 1.364 3 3s-1.364 3-3 3" /></svg>
+                        <p class="text-sm text-slate-500">Target: Closing kontrak Rp 120.000.000 / tahun</p>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <svg class="h-5 w-5 text-slate-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 715.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" /></svg>
+                        <p class="text-sm text-slate-500">Tanggal: 15 Mei 2025</p>
+                    </div>
+                    <div class="mt-4 flex justify-end space-x-3" onclick="event.stopPropagation()">
+                        <button class="action-button text-sm font-semibold text-sky-600 hover:text-sky-800">Edit</button>
+                        <button class="action-button text-sm font-semibold text-red-600 hover:text-red-800">Hapus</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
